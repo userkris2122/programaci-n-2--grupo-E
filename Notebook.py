@@ -173,4 +173,5 @@ treeviewD.configure(yscrollcommand=scroll_yD.set)
 scroll_yD.grid(row=5, column=2, sticky="ns")
 
 ventana_principal.mainloop()
-ventana_principal.mainloop()
+
+
