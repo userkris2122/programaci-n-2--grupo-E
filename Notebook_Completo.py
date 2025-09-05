@@ -29,7 +29,74 @@ def enmascarar_fecha(texto):
         edadVar.set("")
     return True
  
-   
+#lista de pacientes (inicialmente vacia) 
+paciente_data=[]
+#funcion para registrar paciente
+def registrarPaciente():
+    #crear un diccionario con los datos ingresados
+    paciente={
+        "Nombre":nombreP.get(),
+        "Fecha de Nacimiento": fechaP.get(),
+        "Edad": edadVar.get(),
+        "Genero": genero.get(),
+        "Grupo Sanguineo": entryGrupoSanguineo.get(), 
+        "Tipo de Seguro": tipo_seguro.get(),
+        "Centro Medico": centro_medico.get()
+    }
+    #agregar paciente a la lista
+    paciente_data.append(paciente)
+    #cargar el treeview
+    cargar_treeview()
+
+def cargar_treeview():
+    #limpiar el Treewieu
+    for paciente in treeview.get_children():
+        treeview.delete(paciente)
+    #insertar cada paciennte
+    for i, item in enumerate(paciente_data):
+        treeview.insert(
+            "", "end", iid=str(i),
+            values=(
+                item["Nombre"],
+                item["Fecha de Nacimiento"], 
+                item["Edad"],
+                item["Genero"],
+                item["Grupo Sanguineo"],
+                item["Tipo de Seguro"],
+                item["Centro Medico"]  
+            )
+        )
+        
+#lista de doctores (inicialmente vacia) 
+doctores_data=[]
+#funcion para registrar doctores
+def registrarDoctores():
+    doctor = {
+        "Nombre": entry_nombreD.get(),
+        "Edad": edad_varD.get(),
+        "Especialidad": especialidad_var.get(),
+        "Telefono": entry_telefono.get()
+    }
+    #agregar doctor a la lista
+    doctores_data.append(doctor)
+    #cargar el treeview
+    cargar_treeview_doctores()
+
+def cargar_treeview_doctores():
+    #limpiar el Treeview
+    for doctor in treeviewD.get_children():
+        treeviewD.delete(doctor)
+    #insertar cada doctor
+    for i, item in enumerate(doctores_data):
+        treeviewD.insert(
+            "", "end", iid=str(i),
+            values=(
+                item["Nombre"],
+                item["Especialidad"],
+                item["Edad"],
+                item["Telefono"]
+            )
+        )
 #crear ventana principal
 ventana_principal= tk.Tk()
 ventana_principal.title("Libro de pacientes y doctores")
@@ -109,7 +176,7 @@ btn_frame=tk.Frame(frame_pacientes)
 btn_frame.grid(row=8,column=0,columnspan=2, pady=5,sticky="w")
  
 #Boton registrar
-btn_registrar=tk.Button(btn_frame,text="Registrar", command="")
+btn_registrar=tk.Button(btn_frame,text="Registrar", command=registrarPaciente)
 btn_registrar.grid(row=0,column=0,padx=5)
  
 #Boton eliminar
@@ -172,7 +239,7 @@ entry_telefono.grid(row=3, column=1, sticky="w", pady=5, padx=5)
 btn_frameD = tk.Frame(frame_doctores)
 btn_frameD.grid(row=4, column=0, columnspan=2, pady=10, sticky="w")
  
-btn_registrarD = tk.Button(btn_frameD, text="Registrar", bg="green", fg="white")
+btn_registrarD = tk.Button(btn_frameD, text="Registrar", bg="green", fg="white", command=registrarDoctores)
 btn_registrarD.grid(row=0, column=0, padx=5)
  
 btn_eliminarD = tk.Button(btn_frameD, text="Eliminar", bg="red", fg="white")
@@ -198,6 +265,9 @@ treeviewD.configure(yscrollcommand=scroll_yD.set)
 scroll_yD.grid(row=5, column=2, sticky="ns")
  
 ventana_principal.mainloop()
+
+
+
 
 
 
