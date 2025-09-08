@@ -28,96 +28,106 @@ def enmascarar_fecha(texto):
     else:
         edadVar.set("")
     return True
-
+ 
+#Guardar el archivo
 def guardar_en_archivo():
-    with open("paciente. text", "w", encoding="utf-8") as archivo:
+    with open("paciente.txt", "w", encoding="utf-8") as archivo:
         for paciente in paciente_data:
             archivo.write(f"{paciente['Nombre']}|{paciente['Fecha de Nacimiento']}|{paciente['Edad']}|"
             f"{paciente['Genero']}|{paciente['Grupo Sanguineo']}|"
-            f"{paciente['Tipo de Seguro']}|{paciente['Centro Medico']}\n")
+            f"{paciente['Tipo de Seguro']}|{paciente['Centro Medico']}\n")            
  
+#Cargar desde archivos doctores
 def cargar_desde_archivo_pacientes():
     try:
-        with open("paciente.text", "r", enconding="utf-8") as archivo:
+        with open("paciente.txt","r",encoding="utf-8") as archivo:
             paciente_data.clear()
             for linea in archivo:
                 datos=linea.strip().split("|")
                 if len(datos)==7:
                     paciente={
-                        "Nombre": datos[0], 
-                        "Fecha de Nacimiento": datos[1], 
+                        "Nombre":datos[0],
+                        "Fecha de Nacimiento":datos[1],
                         "Edad":datos[2],
-                        "Genero": datos[3], 
-                        "Grupo Sanguineo": datos[4],
-                        "Tipo Seguro": datos[5], 
-                        "Centro Medico": datos[6]
+                        "Genero":datos[3],
+                        "Grupo Sanguineo":datos[4],
+                        "Tipo de Seguro":datos[5],
+                        "Centro Medico":datos[6]
                     }
                     paciente_data.append(paciente)
         cargar_treeview()
-    except FileExistsError:
-        open("paciente.text", "w", encoding="utf-8").close()
-#lista de pacientes (inicialmente vacia) 
+    except FileNotFoundError:
+        open("paciente.txt","w", encoding="utf-8").close()
+       
+#lista de pacientes (inicialmente vacia)
 paciente_data=[]
-#funcion para registrar paciente
+#funcion para registarar pacientes
 def registrarPaciente():
-    #crear un diccionario con los datos ingresados
+    #crear diccionario con los datos ingresados
     paciente={
         "Nombre":nombreP.get(),
-        "Fecha de Nacimiento": fechaP.get(),
+        "Fecha de Nacimiento":fechaP.get(),
         "Edad": edadVar.get(),
         "Genero": genero.get(),
-        "Grupo Sanguineo": entryGrupoSanguineo.get(), 
+        "Grupo Sanguineo": entryGrupoSanguineo.get(),
         "Tipo de Seguro": tipo_seguro.get(),
         "Centro Medico": centro_medico.get()
     }
-    #agregar paciente a la lista
+    #Agregar pacientes a la lista
     paciente_data.append(paciente)
+    #linea modificada 8/9/25
     guardar_en_archivo()
-    #cargar el treeview
-    cargar_treeview()
-
+    #Cargar el Treeview
+    cargar_treeview()  
 def cargar_treeview():
-    #limpiar el Treewieu
+    #Limpiar el treeview
     for paciente in treeview.get_children():
         treeview.delete(paciente)
-    #insertar cada paciennte
+       
+#insertar cada paciente
     for i, item in enumerate(paciente_data):
         treeview.insert(
-            "", "end", iid=str(i),
+            "","end", iid=str(i),
             values=(
                 item["Nombre"],
-                item["Fecha de Nacimiento"], 
+                item["Fecha de Nacimiento"],
                 item["Edad"],
                 item["Genero"],
                 item["Grupo Sanguineo"],
                 item["Tipo de Seguro"],
-                item["Centro Medico"]  
+                item["Centro Medico"]
             )
         )
-        
-#lista de doctores (inicialmente vacia) 
+#registrar DOCTORES
+ 
+#lista de doctores (inicialmente vacia)
 doctores_data=[]
-#funcion para registrar doctores
 def registrarDoctores():
     doctor = {
         "Nombre": entry_nombreD.get(),
-        "Edad": edad_varD.get(),
         "Especialidad": especialidad_var.get(),
+        "Edad": spinbox_edadD.get(),
         "Telefono": entry_telefono.get()
     }
-    #agregar doctor a la lista
     doctores_data.append(doctor)
-    #cargar el treeview
     cargar_treeview_doctores()
-
+ 
 def cargar_treeview_doctores():
-    #limpiar el Treeview
     for doctor in treeviewD.get_children():
         treeviewD.delete(doctor)
-    #insertar cada doctor
     for i, item in enumerate(doctores_data):
-        treeviewD.insert(
-            "", "end", iid=str(i),
+        treeviewD.insert("", "end", iid=str(i), values=(
+            item["Nombre"],
+            item["Especialidad"],
+            item["Edad"],
+            item["Telefono"]
+        ))
+ 
+       
+#insertar cada paciente
+    for i, item in enumerate(doctores_data):
+        treeview.insert(
+            "","end", iid=str(i),
             values=(
                 item["Nombre"],
                 item["Especialidad"],
@@ -125,10 +135,12 @@ def cargar_treeview_doctores():
                 item["Telefono"]
             )
         )
+ 
+               
 #crear ventana principal
 ventana_principal= tk.Tk()
 ventana_principal.title("Libro de pacientes y doctores")
-ventana_principal.geometry("900x800")
+ventana_principal.geometry("900x900")
  
 #Crear contenedor Notebook(pesttañas)
 pestañas=ttk.Notebook(ventana_principal)
@@ -253,8 +265,7 @@ combo_especialidad.grid(row=1, column=1, sticky="w", pady=5, padx=5)
 #Edad con Spinbox
 label_edadD = tk.Label(frame_doctores, text="Edad:")
 label_edadD.grid(row=2, column=0, sticky="w", pady=5, padx=5)
-edad_varD = tk.StringVar()
-spinbox_edadD = tk.Spinbox(frame_doctores, from_=18, to=100, textvariable=edad_varD, width=5)
+spinbox_edadD = tk.Spinbox(frame_doctores, from_=1, to=100, state="readonly")
 spinbox_edadD.grid(row=2, column=1, sticky="w", pady=5, padx=5)
  
 #Teléfono
@@ -267,7 +278,7 @@ entry_telefono.grid(row=3, column=1, sticky="w", pady=5, padx=5)
 btn_frameD = tk.Frame(frame_doctores)
 btn_frameD.grid(row=4, column=0, columnspan=2, pady=10, sticky="w")
  
-btn_registrarD = tk.Button(btn_frameD, text="Registrar", bg="green", fg="white", command=registrarDoctores)
+btn_registrarD = tk.Button(btn_frameD, text="Registrar", bg="green", fg="white",command=registrarDoctores)
 btn_registrarD.grid(row=0, column=0, padx=5)
  
 btn_eliminarD = tk.Button(btn_frameD, text="Eliminar", bg="red", fg="white")
@@ -291,15 +302,7 @@ treeviewD.grid(row=5, column=0, columnspan=2, sticky="nsew", padx=5, pady=10)
 scroll_yD = ttk.Scrollbar(frame_doctores, orient="vertical", command=treeviewD.yview)
 treeviewD.configure(yscrollcommand=scroll_yD.set)
 scroll_yD.grid(row=5, column=2, sticky="ns")
-
-cargar_desde_archivo_pacientes()  #cargar datos desde el archivo al iniciar la aplicacion 
-
+ 
+cargar_desde_archivo_pacientes()#cargar datos desde el archivo pacientes al iniciar la app
 ventana_principal.mainloop()
-
-
-
-
-
-
-
-
+ 
