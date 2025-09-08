@@ -28,7 +28,34 @@ def enmascarar_fecha(texto):
     else:
         edadVar.set("")
     return True
+
+def guardar_en_archivo():
+    with open("paciente. text", "w", encoding="utf-8") as archivo:
+        for paciente in paciente_data:
+            archivo.write(f"{paciente['Nombre']}|{paciente['Fecha de Nacimiento']}|{paciente['Edad']}|"
+            f"{paciente['Genero']}|{paciente['Grupo Sanguineo']}|"
+            f"{paciente['Tipo de Seguro']}|{paciente['Centro Medico']}\n")
  
+def cargar_desde_archivo_pacientes():
+    try:
+        with open("paciente.text", "r", enconding="utf-8") as archivo:
+            paciente_data.clear()
+            for linea in archivo:
+                datos=linea.strip().split("|")
+                if len(datos)==7:
+                    paciente={
+                        "Nombre": datos[0], 
+                        "Fecha de Nacimiento": datos[1], 
+                        "Edad":datos[2],
+                        "Genero": datos[3], 
+                        "Grupo Sanguineo": datos[4],
+                        "Tipo Seguro": datos[5], 
+                        "Centro Medico": datos[6]
+                    }
+                    paciente_data.append(paciente)
+        cargar_treeview()
+    except FileExistsError:
+        open("paciente.text", "w", encoding="utf-8").close()
 #lista de pacientes (inicialmente vacia) 
 paciente_data=[]
 #funcion para registrar paciente
@@ -45,6 +72,7 @@ def registrarPaciente():
     }
     #agregar paciente a la lista
     paciente_data.append(paciente)
+    guardar_en_archivo()
     #cargar el treeview
     cargar_treeview()
 
@@ -200,7 +228,7 @@ treeview.column("GrupoS",width=100,anchor="center")
 treeview.column("TipoS",width=100,anchor="center")
 treeview.column("CentroM",width=120)
 #Ubicar el TreeView en la cuadricula
-treeview.grid(row=7,column=0,columnspan=2,sticky="nsew",padx=5,pady=10)
+treeview.grid(row=10,column=0,columnspan=2,sticky="nsew",padx=5,pady=10)
  
 #Scrollbar vertical
 scroll_y=ttk.Scrollbar(frame_pacientes, orient="vertical", command=treeview.yview)
@@ -263,8 +291,12 @@ treeviewD.grid(row=5, column=0, columnspan=2, sticky="nsew", padx=5, pady=10)
 scroll_yD = ttk.Scrollbar(frame_doctores, orient="vertical", command=treeviewD.yview)
 treeviewD.configure(yscrollcommand=scroll_yD.set)
 scroll_yD.grid(row=5, column=2, sticky="ns")
- 
+
+cargar_desde_archivo_pacientes()  #cargar datos desde el archivo al iniciar la aplicacion 
+
 ventana_principal.mainloop()
+
+
 
 
 
