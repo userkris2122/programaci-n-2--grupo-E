@@ -3,26 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listas</title>
+    <title>PAGINA CON FORMULARIO</title>
 </head>
 <body>
-<h1>Artistas Favoritos</h1>
-<UL>
-    <Li>Ariana Grande</Li>
-    <Li>Lady Gaga</Li>
-    <Li>Rosalia</Li>
-    <Li>Angeles Azules</Li>
-    <Li>Corona</Li>
-</UL>
-<HR>
-    <h1>Lista de Canciones Favoritas</h1>
-    <OL>
-        <Li>Bang Bang</Li>
-        <Li>Poker Face</Li>
-        <Li>Error 403</Li>
-        <Li>Como te voy a olvidar</Li>
-        <Li>Con Altura</Li>
-
-    </OL>
+    <FORM NAME="FORMULARIO ">
+        Nombre:<input type="text" name="nombre"><br>
+        Direccion: <input type="text" name="direccion"><br>
+        Calle: <input type="text" name="calle"><br>
+        Carnet de identidad: <input type="text" name="carnet" size="5" maxlength="5"><br>
+        Sintomas:
+        <br>
+        <input type="checkbox" name="fiebre" value="fiebre" checked>Fiebre<br>
+        <input type="checkbox" name="mareos" value="mareos" checked>Mareos<br>
+        <input type="checkbox" name="dolor de cabeza" value="dolor de cabeza" checked>dolor de cabeza<br>
+        Genero:
+        <br>
+        <input type="radio" name="genero" value="masculino" checked>Masculino<br>
+        <input type="radio" name="genero" value="femenino" checked>Femenino<br>
+        Seguro: 
+        <SELECT NAME="Seguro">
+            <OPTION value="Caja Petrolera" selected>Caja Petrolera
+            <OPTION value="nacional" selected>Caja Nacional 
+            <OPTION value="bancaria" selected>Caja Bancaria
+        </SELECT>
+        <br>
+        <TEXTAREA NAME="Direccion" ROWS=10 COLS=14>
+        </TEXTAREA>
+        <br> 
+        <input type="submit" name="enviar"><br>
+        <br>
+        <input type="reset">
+        
+    </FORM>
+    
 </body>
 </html>
