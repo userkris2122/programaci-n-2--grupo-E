@@ -6,6 +6,22 @@ table{
     border: 2px solid black; 
     padding:10px;
     width: 80%;
-    border-collapse:collapse;
+    /*border-collapse:collapse;*/
     margin:0 auto;}
 th,td{border: solid 1px black;}
+th,td{
+    border:2px solid black;
+    padding:40px;
+}
+thead{
+    background-color:lightblue;
+    border-bottom:solid 2px black;
+    color:purple;
+}
+tr:nth-child(even){
+    background-color: rgb(248, 248, 246);
+}
+tr:hover td{
+    background-color: blue;
+    color:plum;
+}
