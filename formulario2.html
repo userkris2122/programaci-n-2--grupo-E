@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+<body>
+    <h1>COMPLETAR:</h1>
+    <form name="formulario">
+        Elija un color: <input type="color" name="color" value="#000000"><br><br>
+
+        Escriba un mensaje:<br>
+        <textarea name="mensaje" rows="4" cols="40" placeholder="Por favor, escriba aquí"></textarea><br><br>
+
+        Elija una opción:
+        <select name="lenguaje">
+            <option value="java" selected>Java</option>
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+        </select><br><br>
+
+        Orden:<br>
+        <input type="radio" name="orden" value="1ro">1ro.
+        <input type="radio" name="orden" value="2do">2do.
+        <input type="radio" name="orden" value="3ro">3ro.<br>
+
+        Rellene las opciones siguientes:<br><br>
+
+        Elija una fecha: <input type="date" name="fecha"><br><br>
+
+        Elija un fichero: <input type="file" name="fichero"><br><br>
+
+        Seleccione nivel:
+        <select name="nivel">
+            <option value="1ro">1ro</option>
+            <option value="2do">2do</option>
+            <option value="3ro">3ro</option>
+            <option value="4to">4to</option>
+        </select><br><br>
+
+        <input type="submit" value="Enviar">
+        <input type="reset" value="Resetear">
+    </form>
+</body>
+</html>
